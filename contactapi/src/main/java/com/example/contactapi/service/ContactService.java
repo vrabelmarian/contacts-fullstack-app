@@ -24,7 +24,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 @Transactional(rollbackOn = Exception.class)
 public class ContactService {
 
-    private static final String PHOTO_DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads/";
+    public static final String PHOTO_DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads/";
     private final ContactRepository contactRepository;
 
     public ContactService(ContactRepository contactRepository) {
