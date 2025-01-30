@@ -33,6 +33,11 @@ public class ContactResource {
         return ResponseEntity.ok().body(contactService.getAllContacts(page, size));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Contact> getContact(@PathVariable(value = "id") String id) {
+        return ResponseEntity.ok().body(contactService.getContactById(id));
+    }
+
     @PostMapping
     public ResponseEntity<Contact> createContact(@RequestBody Contact contact) {
         return ResponseEntity.created(URI.create("/contacts/userID")).body(contactService.createContact(contact));
