@@ -2,6 +2,7 @@ package com.example.contactapi.service;
 
 import com.example.contactapi.domain.Contact;
 import com.example.contactapi.repository.ContactRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 @Service
+@Transactional(rollbackOn = Exception.class)
 public class ContactService {
 
     private static final String PHOTO_DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads/";

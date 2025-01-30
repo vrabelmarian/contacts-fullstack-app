@@ -2,6 +2,7 @@ package com.example.contactapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 public class Contact {
 
     @Id
-    @GeneratedValue
+    @UuidGenerator
     @Column(name = "id", unique = true, nullable = false, updatable = false)
     private String id;
 
