@@ -3,6 +3,7 @@ import './App.css'
 import { getContacts } from './api/ContactApi'
 import { ContactData } from './data'
 import Header from './components/header'
+import ContactCard from './components/contactCard'
 
 function App() {
   const [data, setData] = useState<ContactData | null>(null)
@@ -26,6 +27,9 @@ function App() {
   return (
     <>
       <Header contactsNum={data?.totalElements} />
+      <ContactCard contact={data?.content[0]} />
+      <ContactCard contact={data?.content[1]} />
+      <ContactCard contact={data?.content[2]} />{' '}
     </>
   )
 }
