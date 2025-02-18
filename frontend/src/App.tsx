@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { getContacts } from './api/ContactApi'
+import { ContactData } from './data'
+import Header from './components/header'
 
 function App() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState<ContactData | null>(null)
   const [currPage, setCurrPage] = useState(0)
 
   const GetAllContacts = async (page = 0, size = 10) => {
@@ -21,7 +23,11 @@ function App() {
     GetAllContacts()
   }, [])
 
-  return <div>Contacts List</div>
+  return (
+    <>
+      <Header contactsNum={data?.totalElements} />
+    </>
+  )
 }
 
 export default App
