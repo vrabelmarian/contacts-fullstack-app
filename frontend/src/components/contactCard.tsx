@@ -10,7 +10,7 @@ const ContactCard = ({ contact }: ContactProps) => {
     return <div className='text-gray-500 italic p-4'> Contact unavailable</div>
   }
   return (
-    <div className='bg-gray-800 text-white p-4 flex flex-col gap-2'>
+    <div className='bg-gray-800 text-white p-4 flex flex-col gap-2 rounded-md shadow-lg'>
       <div className='flex items-center gap-4'>
         <div className='w-16 h-16 rounded-full overflow-hidden'>
           <img

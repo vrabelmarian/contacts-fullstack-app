@@ -10,5 +10,6 @@ export type Contact = {
 
 export type ContactData = {
   totalElements: number
+  totalPages: number
   content: Contact[]
 }
