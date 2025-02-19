@@ -4,10 +4,12 @@ import { getContacts } from './api/ContactApi'
 import { ContactData } from './data'
 import Header from './components/header'
 import ContactList from './components/contactsList'
+import AddContactModal from './components/addContactModal'
 
 function App() {
   const [data, setData] = useState<ContactData | null>(null)
   const [currPage, setCurrPage] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const GetAllContacts = async (page = 0, size = 10) => {
     try {
@@ -24,10 +26,13 @@ function App() {
     GetAllContacts()
   }, [])
 
+  const toggleModal = (show: boolean) => setIsModalOpen(show)
+
   return (
     <>
-      <Header contactsNum={data?.totalElements} />
+      <Header contactsNum={data?.totalElements} toggleModal={toggleModal} />
       <ContactList data={data} currentPage={currPage} getAllContacts={GetAllContacts} />
+      {isModalOpen && <AddContactModal toggleModal={toggleModal} />}
     </>
   )
 }
