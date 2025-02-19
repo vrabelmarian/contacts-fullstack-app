@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Contact } from '../data'
+import { Contact, UploadContact } from '../data'
 
 const API_URL = 'http://localhost:8080/contacts'
 
@@ -7,7 +7,7 @@ export async function getContacts(page = 0, size = 10) {
   return await axios.get(`${API_URL}?page=${page}&size=${size}`)
 }
 
-export async function saveContact(contact: Contact) {
+export async function saveContact(contact: UploadContact) {
   return await axios.post(API_URL, contact)
 }
 

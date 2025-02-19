@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { getContacts } from './api/ContactApi'
+import { getContacts, saveContact } from './api/ContactApi'
 import { ContactData } from './data'
 import Header from './components/header'
 import ContactList from './components/contactsList'
@@ -22,6 +22,16 @@ function App() {
     }
   }
 
+  const addNewContact = async (formData: FormData) => {
+    try {
+      console.log('Submitting new contact:', formData)
+      await saveContact(formData)
+      GetAllContacts()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
     GetAllContacts()
   }, [])
@@ -32,7 +42,7 @@ function App() {
     <>
       <Header contactsNum={data?.totalElements} toggleModal={toggleModal} />
       <ContactList data={data} currentPage={currPage} getAllContacts={GetAllContacts} />
-      {isModalOpen && <AddContactModal toggleModal={toggleModal} />}
+      {isModalOpen && <AddContactModal toggleModal={toggleModal} addNewContact={addNewContact} />}
     </>
   )
 }

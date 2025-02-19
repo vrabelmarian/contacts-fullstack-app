@@ -8,6 +8,15 @@ export type Contact = {
   title: string
 }
 
+export type UploadContact = {
+  name: string
+  email: string
+  phone: string
+  address: string
+  photo: string
+  title: string
+}
+
 export type ContactData = {
   totalElements: number
   totalPages: number
