@@ -1,14 +1,13 @@
 import { useRef, useState } from 'react'
-import { Contact, UploadContact } from '../data'
-import { saveContact } from '../api/ContactApi'
+import { UploadContact } from '../data'
+import { saveContact, uploadPhoto } from '../api/ContactApi'
 
 type AddContactModalProps = {
   toggleModal: (show: boolean) => void
-  addNewContact: (contact: UploadContact) => Promise<Contact>
-  updatePhoto: (formData: FormData) => Promise<{ data: string }>
+  refreshContacts: () => void
 }
 
-const AddContactModal = ({ toggleModal, addNewContact }: AddContactModalProps) => {
+const AddContactModal = ({ toggleModal, refreshContacts }: AddContactModalProps) => {
   const fileRef = useRef<HTMLInputElement | null>(null)
   const [values, setValues] = useState<UploadContact>({
     name: '',
@@ -18,7 +17,8 @@ const AddContactModal = ({ toggleModal, addNewContact }: AddContactModalProps) =
     title: '',
     photo: '',
   })
-  const [file, setFile] = useState<File | null>(null)
+
+  const [file, setFile] = useState<File | undefined>(undefined)
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [event.target.name]: event.target.value })
@@ -28,10 +28,21 @@ const AddContactModal = ({ toggleModal, addNewContact }: AddContactModalProps) =
     event.preventDefault()
 
     try {
-      const savedContact = await saveContact(values)
+      const { data: savedContact } = await saveContact(values)
+
+      if (file) {
+        const data = new FormData()
+
+        data.append('file', file, file.name)
+        data.append('id', savedContact.id)
+
+        await uploadPhoto(data)
+      }
 
       toggleModal(false)
       setValues({ name: '', email: '', phone: '', address: '', title: '', photo: '' })
+      setFile(undefined)
+      refreshContacts()
     } catch (error) {
       console.error('Error adding contact:', error)
     }
@@ -94,7 +105,7 @@ const AddContactModal = ({ toggleModal, addNewContact }: AddContactModalProps) =
           <input
             type='file'
             ref={fileRef}
-            onChange={e => setFile(e.target.files?.[0] || null)}
+            onChange={e => setFile(e.target.files?.[0] || undefined)}
             className='border p-2 w-full rounded'
           />
           <div className='flex justify-end space-x-3 mt-4'>
