@@ -12,8 +12,17 @@ type ContactListProps = {
 
 const ContactList = ({ data, currentPage, getAllContacts }: ContactListProps) => {
   if (!data) {
-    return <div className='text-gray-500 italic p-4'> Contacts List Unavailable</div>
+    return <div className='text-gray-500 italic p-4'>Contacts List Unavailable</div>
   }
+
+  const totalPages = data.totalPages || 1
+
+  const handlePageChange = (page: number) => {
+    if (page >= 0 && page < totalPages) {
+      getAllContacts(page)
+    }
+  }
+
   return (
     <div className='bg-gray-700 w-full'>
       <main className='max-w-6xl w-full mx-auto p-4'>
@@ -28,6 +37,36 @@ const ContactList = ({ data, currentPage, getAllContacts }: ContactListProps) =>
               </li>
             ))}
         </ul>
+
+        {data?.content?.length > 0 && totalPages > 1 && (
+          <div className='pagination mt-6 flex justify-center space-x-4'>
+            <a
+              onClick={() => handlePageChange(currentPage - 1)}
+              className={`${currentPage === 0 ? 'text-gray-500 cursor-not-allowed' : 'text-blue-600'}`}
+            >
+              &laquo;
+            </a>
+
+            {Array.from({ length: totalPages }).map((_, pageIndex) => (
+              <a
+                key={pageIndex}
+                onClick={() => handlePageChange(pageIndex)}
+                className={`${
+                  currentPage === pageIndex ? 'bg-blue-600 text-white' : 'text-blue-600'
+                } px-3 py-1 rounded`}
+              >
+                {pageIndex + 1}
+              </a>
+            ))}
+
+            <a
+              onClick={() => handlePageChange(currentPage + 1)}
+              className={`${currentPage === totalPages - 1 ? 'text-gray-500 cursor-not-allowed' : 'text-blue-600'}`}
+            >
+              &raquo;
+            </a>
+          </div>
+        )}
       </main>
     </div>
   )

@@ -11,7 +11,7 @@ function App() {
   const [currPage, setCurrPage] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const GetAllContacts = async (page = 0, size = 10) => {
+  const GetAllContacts = async (page = 0, size = 3) => {
     try {
       setCurrPage(page)
       const { data } = await getContacts(page, size)
