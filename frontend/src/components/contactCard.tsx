@@ -1,16 +1,24 @@
 import { EnvelopeIcon, MapIcon, PhoneIcon } from '@heroicons/react/16/solid'
 import { Contact } from '../data'
+import { useNavigate } from 'react-router-dom'
 
 type ContactProps = {
   contact?: Contact
 }
 
 const ContactCard = ({ contact }: ContactProps) => {
+  const navigate = useNavigate()
+
   if (!contact) {
     return <div className='text-gray-500 italic p-4'> Contact unavailable</div>
   }
+
+  const handleDetail = () => {
+    navigate(`/contact/${contact.id}`)
+  }
+
   return (
-    <div className='bg-gray-800 text-white p-4 flex flex-col gap-2 rounded-md shadow-lg'>
+    <div className='bg-gray-800 text-white p-4 flex flex-col gap-2 rounded-md shadow-lg' onClick={handleDetail}>
       <div className='flex items-center gap-4'>
         <div className='w-16 h-16 rounded-full overflow-hidden'>
           <img
